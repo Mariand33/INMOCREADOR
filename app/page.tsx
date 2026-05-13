@@ -14,7 +14,7 @@ const supabase = createClient(
 interface Msg { role: "bot" | "user"; text: string; isHtml?: boolean; }
 
 // ── WHATSAPP NUMBER ───────────────────────────────────────
-const WA = "5493584000000"; // ← REEMPLAZAR con tu número real
+const WA = "5493584289903"; // ← REEMPLAZAR con tu número real
 
 export default function Home() {
   useEffect(() => {
