@@ -50,10 +50,11 @@ function CityCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-if (!ctx) return;
+    const canvasEl = canvasRef.current;
+    if (!canvasEl) return;
+    const ctx = canvasEl.getContext("2d");
+    if (!ctx) return;
+    
     let W = 0, H = 0, animId = 0;
     let buildings: Building[] = [], stars: Star[] = [], particles: Particle[] = [];
     let t = 0;
@@ -64,8 +65,8 @@ if (!ctx) return;
     interface Particle { x: number; y: number; vx: number; vy: number; r: number; a: number; gold: boolean; }
 
     function init() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+      W = canvasEl.width = window.innerWidth;
+      H = canvasEl.height = window.innerHeight;
       const bCount = Math.floor(W / 30);
       buildings = Array.from({ length: bCount }, (_, i) => {
         const x = (W / bCount) * i;
@@ -658,7 +659,7 @@ const globalStyles = `
   .card-hover:hover { border-color: rgba(201,168,76,0.32) !important; transform: translateY(-4px); }
   .fade-up { animation: fadeUp 0.8s ease both; }
   .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.2s; }f
   .delay-3 { animation-delay: 0.3s; }
   .delay-4 { animation-delay: 0.45s; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
