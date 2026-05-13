@@ -1,18 +1,56 @@
 'use client'
 import { useState } from 'react'
 
+const SUPABASE_URL = 'https://nniivhebocgdsynlpuhf.supabase.co'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaWl2aGVib2NnZHN5bmxwdWhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDQ4MDksImV4cCI6MjA5MTg4MDgwOX0.LucbLf6bWhNYdfo2zhmCgkf5gTKsvJWA73_piCmoG70'
+
 export default function ContactForm() {
-  const [form, setForm] = useState({ nombre: '', inmobiliaria: '', whatsapp: '', ciudad: '', agentes: '' })
+  const [form, setForm] = useState({
+    nombre: '',
+    inmobiliaria: '',
+    whatsapp: '',
+    ciudad: '',
+    agentes: '',
+  })
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async () => {
-    if (!form.nombre || !form.whatsapp) return
+    if (!form.nombre || !form.whatsapp) {
+      setError('Por favor completá al menos tu nombre y WhatsApp.')
+      return
+    }
+    setError('')
     setLoading(true)
-    // Simulate API call — replace with your Supabase/webhook endpoint
-    await new Promise(r => setTimeout(r, 1200))
-    setLoading(false)
-    setSent(true)
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/Inmobiliarias`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify({
+          nombre: form.nombre,
+          inmobiliaria: form.inmobiliaria,
+          whatsapp: form.whatsapp,
+          ciudad: form.ciudad,
+          agentes: form.agentes,
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.text()
+        throw new Error(err)
+      }
+      setSent(true)
+    } catch (e: any) {
+      setError('Hubo un error al enviar. Intentá de nuevo.')
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const field = (label: string, key: keyof typeof form, placeholder: string, type = 'text') => (
@@ -53,7 +91,6 @@ export default function ContactForm() {
         Acceso limitado a 15 inmobiliarias de la región por lanzamiento. Reservá tu lugar ahora.
       </p>
 
-      {/* Form card */}
       <div style={{
         background: 'rgba(7,16,31,0.95)', border: '1px solid var(--border)',
         borderRadius: 20, padding: 48, maxWidth: 580, margin: '0 auto',
@@ -64,7 +101,9 @@ export default function ContactForm() {
         {!sent ? (
           <>
             <h3 style={{ fontSize: 20, fontWeight: 800, textAlign: 'center' as const, marginBottom: 6 }}>Solicitar demo privada</h3>
-            <p style={{ textAlign: 'center' as const, fontSize: 13, color: 'var(--muted)', marginBottom: 28 }}>Un especialista de INMOCREADOR te contacta en menos de 24hs.</p>
+            <p style={{ textAlign: 'center' as const, fontSize: 13, color: 'var(--muted)', marginBottom: 28 }}>
+              Un especialista de INMOCREADOR te contacta en menos de 24hs.
+            </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               {field('Nombre completo', 'nombre', 'Tu nombre')}
@@ -76,7 +115,7 @@ export default function ContactForm() {
                 <select
                   value={form.agentes}
                   onChange={e => setForm(p => ({ ...p, agentes: e.target.value }))}
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 8, padding: '11px 14px', color: form.agentes ? '#fff' : 'var(--muted)', fontFamily: 'inherit', fontSize: 13, outline: 'none', WebkitAppearance: 'none' as any }}
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 8, padding: '11px 14px', color: form.agentes ? '#fff' : 'var(--muted)', fontFamily: 'inherit', fontSize: 13, outline: 'none' }}
                   onFocus={e => e.currentTarget.style.borderColor = 'rgba(37,99,235,.6)'}
                   onBlur={e => e.currentTarget.style.borderColor = 'var(--border)'}
                 >
@@ -89,6 +128,10 @@ export default function ContactForm() {
               </div>
             </div>
 
+            {error && (
+              <p style={{ fontSize: 12, color: '#f87171', textAlign: 'center' as const, marginTop: 12 }}>{error}</p>
+            )}
+
             <button
               onClick={handleSubmit}
               disabled={loading}
@@ -96,14 +139,13 @@ export default function ContactForm() {
                 width: '100%', background: loading ? '#475569' : 'var(--el2)',
                 color: '#fff', border: 'none', padding: 14, borderRadius: 8,
                 fontSize: 14, fontWeight: 800, fontFamily: 'inherit',
-                cursor: loading ? 'default' : 'pointer', marginTop: 6,
+                cursor: loading ? 'default' : 'pointer', marginTop: 14,
                 letterSpacing: .5, transition: 'all .3s',
               }}
-              onMouseOver={e => { if (!loading) { e.currentTarget.style.background = 'var(--el3)'; e.currentTarget.style.boxShadow = '0 0 28px rgba(37,99,235,.45)' } }}
-              onMouseOut={e => { e.currentTarget.style.background = loading ? '#475569' : 'var(--el2)'; e.currentTarget.style.boxShadow = 'none' }}
             >
               {loading ? 'Enviando...' : 'Activar sistema inteligente en mi inmobiliaria →'}
             </button>
+
             <p style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'center' as const, marginTop: 14 }}>
               🔒 Tus datos son confidenciales. Sin spam, sin compromiso.
             </p>
