@@ -86,7 +86,7 @@ function CityCanvas() {
       particles = Array.from({ length: 45 }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.4, vy: -Math.random() * 0.5 - 0.1, r: Math.random() * 1.5, a: Math.random() * 0.4, gold: Math.random() > 0.55 }));
     }
 
-    function draw() {
+   function draw(ctx: CanvasRenderingContext2D) {
       t += 0.016;
       ctx.clearRect(0, 0, W, H);
       const sky = ctx.createLinearGradient(0, 0, 0, H);
