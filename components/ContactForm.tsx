@@ -33,10 +33,10 @@ export default function ContactForm() {
           'Prefer': 'return=minimal',
         },
         body: JSON.stringify({
-        nombre: form.nombre,
-Inmobiliaria: form.inmobiliaria,
-WhatsApp: form.whatsapp,
-Ciudad: form.ciudad,
+      nombre: form.nombre,
+inmobiliaria: form.inmobiliaria,
+whatsapp: form.whatsapp,
+ciudad: form.ciudad,
 agentes: form.agentes,
         }),
       })
