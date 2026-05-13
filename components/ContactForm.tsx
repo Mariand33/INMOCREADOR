@@ -33,11 +33,11 @@ export default function ContactForm() {
           'Prefer': 'return=minimal',
         },
         body: JSON.stringify({
-          nombre: form.nombre,
-          inmobiliaria: form.inmobiliaria,
-          whatsapp: form.whatsapp,
-          ciudad: form.ciudad,
-          agentes: form.agentes,
+        nombre: form.nombre,
+Inmobiliaria: form.inmobiliaria,
+WhatsApp: form.whatsapp,
+Ciudad: form.ciudad,
+agentes: form.agentes,
         }),
       })
       if (!res.ok) {
