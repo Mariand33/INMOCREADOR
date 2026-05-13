@@ -24,7 +24,7 @@ export default function ContactForm() {
     setError('')
     setLoading(true)
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/Inmobiliarias`, {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/inmobiliarias`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
