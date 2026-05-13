@@ -65,8 +65,8 @@ function CityCanvas() {
     interface Particle { x: number; y: number; vx: number; vy: number; r: number; a: number; gold: boolean; }
 
     function init() {
-      W = canvasEl.width = window.innerWidth;
-      H = canvasEl.height = window.innerHeight;
+     W = canvasEl!.width = window.innerWidth;
+H = canvasEl!.height = window.innerHeight;
       const bCount = Math.floor(W / 30);
       buildings = Array.from({ length: bCount }, (_, i) => {
         const x = (W / bCount) * i;
