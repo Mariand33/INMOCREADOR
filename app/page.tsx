@@ -672,3 +672,7 @@ const globalStyles = `
   html { scroll-behavior: smooth; }
   ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 4px; }
 `;
+
+
+
+
