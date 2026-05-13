@@ -13,7 +13,7 @@ const supabase = createClient(
 interface Msg { role: "bot" | "user"; text: string; isHtml?: boolean; }
 
 // ── WHATSAPP NUMBER ───────────────────────────────────────
-const WA = "5493584289903"; // ← REEMPLAZAR con tu número real
+const WA = "5493584000000"; // ← REEMPLAZAR con tu número real
 
 export default function Home() {
   useEffect(() => {
@@ -64,9 +64,9 @@ function CityCanvas() {
     interface Star { x: number; y: number; r: number; a: number; speed: number; }
     interface Particle { x: number; y: number; vx: number; vy: number; r: number; a: number; gold: boolean; }
 
-    function init() {
-     W = canvasEl!.width = window.innerWidth;
-H = canvasEl!.height = window.innerHeight;
+    function init(canvasEl: HTMLCanvasElement) {
+      W = canvasEl.width = window.innerWidth;
+      H = canvasEl.height = window.innerHeight;
       const bCount = Math.floor(W / 30);
       buildings = Array.from({ length: bCount }, (_, i) => {
         const x = (W / bCount) * i;
@@ -137,9 +137,9 @@ H = canvasEl!.height = window.innerHeight;
       animId = requestAnimationFrame(draw);
     }
 
-    init();
+    init(canvasEl);
     draw();
-    const onResize = () => { init(); };
+    const onResize = () => { init(canvasEl); };
     window.addEventListener("resize", onResize);
     return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", onResize); };
   }, []);
@@ -659,7 +659,7 @@ const globalStyles = `
   .card-hover:hover { border-color: rgba(201,168,76,0.32) !important; transform: translateY(-4px); }
   .fade-up { animation: fadeUp 0.8s ease both; }
   .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }f
+  .delay-2 { animation-delay: 0.2s; }
   .delay-3 { animation-delay: 0.3s; }
   .delay-4 { animation-delay: 0.45s; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
@@ -672,7 +672,3 @@ const globalStyles = `
   html { scroll-behavior: smooth; }
   ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 4px; }
 `;
-
-
-
-
